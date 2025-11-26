@@ -33,30 +33,70 @@ class CijferController extends Controller
     }
 
     public function update(Request $request, Cijfer $cijfer)
+    {
+        // waarde ophalen en komma naar punt omzetten
+        $waarde = str_replace(',', '.', $request->waarde);
+
+        $request->validate([
+            'vak' => 'required|string',
+            'waarde' => 'required',
+       ]);
+
+        // controleren of de waarde numeriek is NA omzetting
+        if (!is_numeric($waarde)) {
+                return back()
+                    ->withErrors(['waarde' => 'Voer een geldig getal in (bijv. 7,5 of 7.5).'])
+                    ->withInput();
+            }
+
+             $cijfer->update([
+                'vak'    => $request->vak,
+                'waarde' => $waarde,
+            ]);
+
+            return redirect()
+                ->route('cijfers.show', $cijfer)
+                ->with('success', 'Cijfer succesvol aangepast!');
+    }
+    public function create()
 {
-    // waarde ophalen en komma naar punt omzetten
-    $waarde = str_replace(',', '.', $request->waarde);
+        $users = User::orderBy('firstname')->get();
+        $selectedUserId = request('user_id');
 
-    $request->validate([
-        'vak' => 'required|string',
-        'waarde' => 'required',
-    ]);
+        return view('cijfers.create', [
+            'users' => $users,
+            'selectedUserId' => $selectedUserId
+        ]);
+    }
 
-    // controleren of de waarde numeriek is NA omzetting
-    if (!is_numeric($waarde)) {
+    public function store(Request $request)
+    {
+        
+        $waarde = str_replace(',', '.', $request->waarde);
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'vak' => 'required|string',
+            'waarde' => 'required',
+        ]);
+
+      
+        if (!is_numeric($waarde)) {
             return back()
                 ->withErrors(['waarde' => 'Voer een geldig getal in (bijv. 7,5 of 7.5).'])
                 ->withInput();
-        }
+       }
 
-        $cijfer->update([
-            'vak'    => $request->vak,
+        Cijfer::create([
+            'user_id' => $request->user_id,
+            'vak' => $request->vak,
             'waarde' => $waarde,
         ]);
 
         return redirect()
-            ->route('cijfers.show', $cijfer)
-            ->with('success', 'Cijfer succesvol aangepast!');
+            ->route('cijfers.index', ['user_id' => $request->user_id])
+            ->with('success', 'Cijfer succesvol toegevoegd!');
     }
+
 
 }
