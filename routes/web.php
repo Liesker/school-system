@@ -21,5 +21,9 @@ Route::middleware('auth')->group(function () {
 // Presence routes
 Route::get('/presence', [PresenceController::class, 'index'])->name('presence.index');
 
+Route::get('/', [App\Http\Controllers\ClassController::class, 'index'])->name('home');
+Route::get('/classrooms', [App\Http\Controllers\ClassController::class, 'index'])->name('classrooms');
+
+
 require __DIR__.'/auth.php';
     
