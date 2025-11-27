@@ -44,4 +44,24 @@ class ClassController extends Controller
         $class->delete();
         return redirect()->route('classrooms')->with('success', 'Class deleted successfully.');
     }
+    public function create()
+    {
+        return view('classes.create');
+    }
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'capacity' => 'required|integer|min:1',
+        ]);
+
+        $class = new Classroom();
+        $class->name = $data['name'];
+        $class->description = $data['description'] ?? null;
+        $class->capacity = $data['capacity'];
+        $class->save();
+
+        return redirect()->route('classrooms.show', ['id' => $class->id])->with('success', 'Class created successfully.');
+    }
 }
