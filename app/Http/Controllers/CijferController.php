@@ -38,6 +38,8 @@ class CijferController extends Controller
         $waarde = str_replace(',', '.', $request->waarde);
 
         $request->validate([
+            'naam' => 'required|string',
+            'weging' => 'required|integer',
             'vak' => 'required|string',
             'waarde' => 'required',
        ]);
@@ -50,6 +52,8 @@ class CijferController extends Controller
             }
 
              $cijfer->update([
+                'naam'   => $request->naam,
+                'weging' => $request->weging,
                 'vak'    => $request->vak,
                 'waarde' => $waarde,
             ]);
@@ -59,7 +63,7 @@ class CijferController extends Controller
                 ->with('success', 'Cijfer succesvol aangepast!');
     }
     public function create()
-{
+   {
         $users = User::orderBy('firstname')->get();
         $selectedUserId = request('user_id');
 
@@ -76,6 +80,8 @@ class CijferController extends Controller
 
         $request->validate([
             'user_id' => 'required|exists:users,id',
+            'naam' => 'required|string',
+            'weging' => 'required|integer',
             'vak' => 'required|string',
             'waarde' => 'required',
         ]);
@@ -89,6 +95,8 @@ class CijferController extends Controller
 
         Cijfer::create([
             'user_id' => $request->user_id,
+            'naam' => $request->naam,
+            'weging' => $request->weging,
             'vak' => $request->vak,
             'waarde' => $waarde,
         ]);
@@ -97,6 +105,15 @@ class CijferController extends Controller
             ->route('cijfers.index', ['user_id' => $request->user_id])
             ->with('success', 'Cijfer succesvol toegevoegd!');
     }
+    public function destroy(Cijfer $cijfer)
+    {
+        $userId = $cijfer->user_id; // zodat we terug kunnen naar dezelfde user
+
+        $cijfer->delete();
+
+        return redirect()->route('cijfers.index', ['user_id' => $userId])->with('success', 'Cijfer verwijderd.');
+    }
+
 
 
 }

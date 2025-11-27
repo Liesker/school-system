@@ -29,39 +29,53 @@
             </select>
         </form>
 
-        
+        <!-- Nieuw cijfer toevoegen knop -->
+        @if(request()->filled('user_id'))
+            <div class="mb-4">
+                <a href="{{ route('cijfers.create', ['user_id' => request('user_id')]) }}"
+                   class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    Nieuw Cijfer Toevoegen
+                </a>
+            </div>
+        @endif
+
         <!-- Alleen cijfers tonen als er een user geselecteerd is -->
         @if(request()->filled('user_id'))
-        
-        <h2 class="text-xl font-semibold mb-2">Cijfers:</h2>
-        
-        @if($cijfers->count() > 0)
-        <ul class="space-y-2">
-            @foreach($cijfers as $cijfer)
-            <li>
-                <a href="{{ route('cijfers.show', $cijfer) }}"
-                class="block p-3 rounded bg-gray-200 hover:bg-gray-300">
-                {{ $cijfer->naam }}: {{ $cijfer->waarde }}
-            </a>
-        </li>
-        @endforeach
-    </ul>
-    @else
-    <p class="text-gray-600">Deze student heeft nog geen cijfers.</p>
-    @endif
-    
-    
-</div>
-@endif
-<!-- Nieuw cijfer toevoegen knop -->
-@if(request()->filled('user_id'))
-    <div class="mb-4">
-        <a href="{{ route('cijfers.create', ['user_id' => request('user_id')]) }}"
-           class="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-            Nieuw Cijfer Toevoegen
-        </a>
+
+            <h2 class="text-xl font-semibold mb-2">Cijfers:</h2>
+
+            @if($cijfers->count() > 0)
+                <ul class="space-y-2">
+                    @foreach($cijfers as $cijfer)
+                        <li class="flex items-center justify-between bg-gray-200 p-3 rounded">
+
+                            <!-- Klikbaar cijfer -->
+                            <a href="{{ route('cijfers.show', $cijfer) }}"
+                               class="flex-1 hover:underline">
+                                {{ $cijfer->naam }}: {{ $cijfer->waarde }}
+                            </a>
+
+                            <!-- Delete knop -->
+                            <form action="{{ route('cijfers.destroy', $cijfer) }}" method="POST"
+                                  onsubmit="return confirm('Weet je zeker dat je dit cijfer wilt verwijderen?');">
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="ml-4 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-gray-600">Deze student heeft nog geen cijfers.</p>
+            @endif
+
+        @endif
+
     </div>
-@endif
 
 </body>
 </html>
