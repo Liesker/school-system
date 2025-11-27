@@ -13,6 +13,7 @@
         <div class="space-y-2">
             <p><strong>Vak:</strong> {{ $cijfer->vak }}</p>
             <p><strong>Waarde:</strong> {{ $cijfer->waarde }}</p>
+            <p><strong>Weging:</strong> {{ $cijfer->weging }}</p>
         </div>
 
         <div class="mt-6 flex gap-3">

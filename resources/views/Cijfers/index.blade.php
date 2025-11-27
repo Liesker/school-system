@@ -41,7 +41,7 @@
             <li>
                 <a href="{{ route('cijfers.show', $cijfer) }}"
                 class="block p-3 rounded bg-gray-200 hover:bg-gray-300">
-                {{ $cijfer->vak }}: {{ $cijfer->waarde }}
+                {{ $cijfer->naam }}: {{ $cijfer->waarde }}
             </a>
         </li>
         @endforeach

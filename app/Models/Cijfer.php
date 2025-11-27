@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cijfer extends Model
 {
-    protected $fillable = ['user_id', 'vak', 'waarde'];
+    protected $fillable = ['user_id', 'naam', 'weging', 'vak', 'waarde'];
 
     public function user()
     {

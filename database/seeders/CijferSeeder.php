@@ -29,6 +29,8 @@ class CijferSeeder extends Seeder
             foreach ($vakken as $vak) {
                 Cijfer::create([
                     'user_id' => $user->id,
+                    'naam'    => 'Toets ' . $vak,
+                    'weging'  => rand(1, 2), // random weging
                     'vak'     => $vak,
                     'waarde'  => rand(1, 10), // random cijfer
                 ]);
