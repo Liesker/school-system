@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classroom;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
             OpdrachtSeeder::class,
             GidsSeeder::class,
             GidsVakSeeder::class,
+            ClassSeeder::class,
         ]);
 
         User::factory()->create([

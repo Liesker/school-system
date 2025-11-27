@@ -18,8 +18,14 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/', [App\Http\Controllers\ClassController::class, 'index'])->name('home');
+
 Route::get('/classrooms', [App\Http\Controllers\ClassController::class, 'index'])->name('classrooms');
+Route::get('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'show'])->name('classrooms.show');
+Route::get('/classrooms/{id}/edit', [App\Http\Controllers\ClassController::class, 'edit'])->name('classrooms.edit');
+Route::get('/classrooms/{id}/delete', [App\Http\Controllers\ClassController::class, 'delete'])->name('classrooms.delete');
+
+// Handle classroom updates via simple POST (no PATCH)
+Route::post('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'update'])->name('classrooms.update');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

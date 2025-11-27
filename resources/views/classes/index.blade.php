@@ -12,12 +12,6 @@
                         <th class="px-4 py-3">Acties</th>
                     </tr>
                 </thead>
-                
-
-
-                
-
-                
                 <tbody>
                     @forelse ($classes as $classroom)
                     <tr class="border-b">
@@ -25,7 +19,9 @@
                         <td class="px-4 py-3">{{ $classroom->description }}</td>
                         <td class="px-4 py-3">{{ $classroom->capacity }}</td>
                         <td class="px-4 py-3">
-                            <a href="#" class="text-blue-500 hover:underline">Bekijken</a>
+                            <a href="{{ route('classrooms.show', $classroom->id) }}" class="text-blue-500 hover:underline">Bekijken</a>
+                            <a href="{{ route('classrooms.edit', $classroom->id) }}" class="text-green-500 hover:underline ml-4">Bewerken</a>
+                            <a href="{{ route('classrooms.delete', $classroom->id) }}" class="text-red-500 hover:underline ml-4">Verwijderen</a>
                         </td>
                     </tr>
                     @empty
