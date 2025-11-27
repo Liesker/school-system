@@ -9,17 +9,18 @@ class ClassController extends Controller
 {
     public function index()
     {
-        $classes = Classroom::all();
+        $classes = Classroom::with('roster')->get(); // ✅ gebruik dezelfde naam als in het model
         return view('classes.index', compact('classes'));
     }
+
     public function show($id)
     {
-        $class = Classroom::findOrFail($id);
+        $class = Classroom::with('roster')->findOrFail($id);
         return view('classes.show', compact('class'));
     }
     public function edit($id)
     {
-        $class = Classroom::findOrFail($id);
+        $class = Classroom::with('roster')->findOrFail($id);
         return view('classes.edit', compact('class'));
     }
     public function update(Request $request, $id)

@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            /* classroom migration items */
+
             $table->string('name');
             $table->string('description')->nullable();
             $table->integer('capacity')->default(30);
-            
+
+            // ✔️ Add roster_id foreign key and constrain to rosters table
+            $table->foreignId('roster_id')
+                ->constrained('rosters')
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('class');
+        Schema::dropIfExists('classrooms');
     }
 };

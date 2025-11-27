@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roster', function (Blueprint $table) {
+        Schema::create('rosters', function (Blueprint $table) {
             $table->id();
+
+            $table->string('term');
+            $table->year('year');
+
             $table->timestamps();
-            
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roster');
+        Schema::dropIfExists('rosters');
     }
 };

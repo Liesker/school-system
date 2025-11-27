@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             OpdrachtSeeder::class,
             GidsSeeder::class,
             GidsVakSeeder::class,
+            RosterSeeder::class,
             ClassSeeder::class,
         ]);
 
