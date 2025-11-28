@@ -13,7 +13,10 @@
                         <th class="px-4 py-3">Naam</th>
                         <th class="px-4 py-3">Beschrijving</th>
                         <th class="px-4 py-3">Capaciteit</th>
+                        <th class="px-4 py-3">Beschikbaarheid</th>
                         <th class="px-4 py-3">Rooster</th>
+                        <th class="px-4 py-3">Lesuur</th>
+                        <th class="px-4 py-3">Klasnummer</th>
                         <th class="px-4 py-3">Acties</th>
                     </tr>
                 </thead>
@@ -23,8 +26,17 @@
                         <td class="px-4 py-3 font-medium">{{ $classroom->name }}</td>
                         <td class="px-4 py-3">{{ $classroom->description }}</td>
                         <td class="px-4 py-3">{{ $classroom->capacity }}</td>
+                        <td>{{ $classroom->is_available ? 'Beschikbaar' : 'Niet Beschikbaar' }}</td>
                         <td class="px-4 py-3">
                             {{ $classroom->roster->term ?? 'N/A' }} {{ $classroom->roster->year ?? '' }}
+                        
+                        </td>
+                        <td>
+                            Lesuur: {{ $classroom->roster->lesson_hour ?? 'N/A' }}
+
+                        </td>
+                        <td>
+                             Klasnummer: {{ $classroom->roster->class_number ?? 'N/A' }}
                         </td>
 
                         <td class="px-4 py-3">

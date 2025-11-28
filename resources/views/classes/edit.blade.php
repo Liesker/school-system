@@ -30,6 +30,26 @@
                 <label for="capacity">Capacity</label><br>
                 <input id="capacity" name="capacity" type="number" value="{{ old('capacity', $class->capacity) }}" style="width:6rem;padding:0.5rem;" />
             </div>
+            
+            <div style="margin-bottom:0.75rem;">
+                <label for="is_available">Availability</label><br>
+                <select id="is_available" name="is_available" style="width:100%;padding:0.5rem;">
+                    <option value="1" {{ old('is_available', $class->is_available) ? 'selected' : '' }}>Available</option>
+                    <option value="0" {{ !old('is_available', $class->is_available) ? 'selected' : '' }}>Not Available</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:0.75rem;">
+                <label for="roster_id">Roster</label><br>
+                <select id="roster_id" name="roster_id" style="width:100%;padding:0.5rem;">
+                    <option value="">-- Select Roster --</option>
+                    @foreach ($rosters as $roster)
+                    <option value="{{ $roster->id }}" {{ old('roster_id', $class->roster_id) == $roster->id ? 'selected' : '' }}>
+                        {{ $roster->term }} {{ $roster->year }} - Lesson Hour: {{ $roster->lesson_hour }} - Class Number: {{ $roster->class_number }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
 
             <div style="margin-top:1rem;">
                 <button type="submit" style="padding:0.5rem 1rem;">Save</button>

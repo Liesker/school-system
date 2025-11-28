@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->string('term');
             $table->year('year');
+            $table->integer('lesson_hour');
+            $table->integer('class_number');
 
             $table->timestamps();
         });

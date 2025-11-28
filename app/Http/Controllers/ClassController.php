@@ -21,7 +21,8 @@ class ClassController extends Controller
     public function edit($id)
     {
         $class = Classroom::with('roster')->findOrFail($id);
-        return view('classes.edit', compact('class'));
+        $rosters = \App\Models\Roster::all();
+        return view('classes.edit', compact('class', 'rosters'));
     }
     public function update(Request $request, $id)
     {
@@ -29,12 +30,16 @@ class ClassController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
+            'roster_id' => 'required|exists:rosters,id',
+            'is_available' => 'required|boolean',
         ]);
 
         $class = Classroom::findOrFail($id);
         $class->name = $data['name'];
         $class->description = $data['description'] ?? null;
         $class->capacity = $data['capacity'];
+        $class->is_available = $data['is_available'];
+        $class->roster_id = $data['roster_id'];
         $class->save();
 
         return redirect()->route('classrooms.show', ['id' => $class->id])->with('success', 'Class updated successfully.');
@@ -47,7 +52,8 @@ class ClassController extends Controller
     }
     public function create()
     {
-        return view('classes.create');
+        $rosters = \App\Models\Roster::all();
+        return view('classes.create', compact('rosters'));
     }
     public function store(Request $request)
     {
@@ -55,12 +61,16 @@ class ClassController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
+            'is_available' => 'required|boolean',
+            'roster_id' => 'required|exists:rosters,id',
         ]);
 
         $class = new Classroom();
         $class->name = $data['name'];
         $class->description = $data['description'] ?? null;
         $class->capacity = $data['capacity'];
+        $class->is_available = $data['is_available'];
+        $class->roster_id = $data['roster_id'];
         $class->save();
 
         return redirect()->route('classrooms.show', ['id' => $class->id])->with('success', 'Class created successfully.');
