@@ -12,74 +12,82 @@
 
     <h1 class="text-3xl font-bold mb-4">Cijfer Bewerken</h1>
 
-    <form action="{{ route('cijfers.update', $cijfer) }}" method="POST" class="space-y-4">
+    {{-- FOUTMELDINGEN --}}
+    @if ($errors->any())
+        <div class="bg-red-200 text-red-800 p-3 rounded mb-4">
+            <ul class="list-disc ml-6">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('cijfers.update', $cijfer) }}" class="space-y-4">
         @csrf
         @method('PUT')
 
-        <!-- STUDENT NAAM (alleen tonen) -->
+        {{-- STUDENT --}}
         <div>
-            <label class="block font-semibold mb-1">Student</label>
-            <input type="text"
-                   value="{{ $cijfer->user->firstname }}"
-                   disabled
-                   class="w-full p-2 border rounded bg-gray-100">
+            <label class="font-semibold block mb-1">Student</label>
+            <select name="user_id" class="w-full p-2 border rounded">
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ $cijfer->user_id == $user->id ? 'selected' : '' }}>
+                        {{ $user->firstname }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
-        <!-- NAAM -->
+        {{-- NAAM VAN DE TOETS --}}
         <div>
-            <label class="block font-semibold mb-1">Naam</label>
-            <input type="text" name="naam"
-                   value="{{ old('naam', $cijfer->naam) }}"
+            <label class="font-semibold block mb-1">Naam toets</label>
+            <input type="text" name="naam" value="{{ old('naam', $cijfer->naam) }}"
                    class="w-full p-2 border rounded">
-            @error('naam')
-            <p class="text-red-600 text-sm">{{ $message }}</p>
-            @enderror
         </div>
 
-          <!-- WEGING -->
+        {{-- VAK --}}
         <div>
-            <label class="block font-semibold mb-1">Weging</label>
-            <input type="text" name="weging"
-                   value="{{ old('weging', $cijfer->weging) }}"
+            <label class="font-semibold block mb-1">Vak</label>
+            <input type="text" name="vak" value="{{ old('vak', $cijfer->vak) }}"
                    class="w-full p-2 border rounded">
-            @error('weging')
-            <p class="text-red-600 text-sm">{{ $message }}</p>
-            @enderror
         </div>
 
-        <!-- VAK -->
+        {{-- WAARDE (CIJFER) --}}
         <div>
-            <label class="block font-semibold mb-1">Vak</label>
-            <input type="text" name="vak"
-                   value="{{ old('vak', $cijfer->vak) }}"
+            <label class="font-semibold block mb-1">Waarde (bijv. 7.5)</label>
+            <input type="text" name="waarde" value="{{ old('waarde', $cijfer->waarde) }}"
                    class="w-full p-2 border rounded">
-            @error('vak')
-            <p class="text-red-600 text-sm">{{ $message }}</p>
-            @enderror
         </div>
 
-        <!-- WAARDE -->
+        {{-- WEGING --}}
         <div>
-            <label class="block font-semibold mb-1">Waarde</label>
-            <input type="text" name="waarde"
-                   value="{{ old('waarde', $cijfer->waarde) }}"
-                   placeholder="bijv. 7,5 of 8"
+            <label class="font-semibold block mb-1">Weging</label>
+            <input type="number" name="weging" value="{{ old('weging', $cijfer->weging) }}"
                    class="w-full p-2 border rounded">
-            @error('waarde')
-            <p class="text-red-600 text-sm">{{ $message }}</p>
-            @enderror
         </div>
 
-        <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            Opslaan
-        </button>
+        {{-- TOTAAL TOETSEN VOOR DIT VAK (ENKEL VOOR DEZE STUDENT) --}}
+        <div>
+            <label class="font-semibold block mb-1">Totaal toetsen voor dit vak (alleen voor deze student)</label>
+            <input type="number" name="totaal_toetsen" min="1"
+                   value="{{ old('totaal_toetsen', $totaal_toetsen) }}"
+                   class="w-full p-2 border rounded">
+        </div>
 
-        <a href="{{ route('cijfers.index', ['user_id' => $cijfer->user_id]) }}"
-           class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-            Terug
-        </a>
+        <div class="flex justify-between mt-6">
+            <a href="{{ route('cijfers.show', $cijfer) }}"
+               class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                Annuleren
+            </a>
+
+            <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Opslaan
+            </button>
+        </div>
 
     </form>
+
 </div>
 
 </body>
