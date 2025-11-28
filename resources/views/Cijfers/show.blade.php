@@ -68,7 +68,7 @@
             </span>
         </p>
         <p>
-            <strong>Voortgang:</strong>
+            <strong>Voortgang  {{ $cijfer->vak }}:</strong>
             {{ $huidigAantal }} / {{ $totaal_toetsen }} toetsen afgerond
             (<span id="progressPercent" class="font-semibold text-green-600">--%</span>)
         </p>

@@ -23,6 +23,11 @@ class CijferSeeder extends Seeder
             'Engels',
             'Biologie',
             'Geschiedenis',
+            'Scheikunde',
+            'Natuurkunde',
+            'Aardrijkskunde',
+            'Economie',
+            'Informatica',
         ];
 
         foreach ($users as $user) {
