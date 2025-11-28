@@ -5,29 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'School Systeem' }}</title>
 
-    <!-- Tailwind import via Vite -->
     @vite('resources/css/app.css')
 </head>
 
-<body >
+<body class="bg-gray-100 text-gray-900">
 
-    <!-- Navbar -->
-    <nav >
-        <div>
-            <h1 class="text-2xl font-bold">School Systeem</h1>
+    <nav class="bg-white shadow mb-6">
+        <div class="max-w-5xl mx-auto flex items-center justify-between p-4">
+            <h1 class="text-xl font-semibold">School Systeem</h1>
 
-            <ul class="flex gap-6">
-                <li><a href="/" >Home</a></li>
-                <li><a href="/classrooms">Roosters</a></li>
-                <li><a href="#" >Docenten</a></li>
-                <li><a href="#" >Leerlingen</a></li>
+            <ul class="flex gap-6 text-sm">
+                <li>
+                    <a href="/" class="hover:text-blue-600">Home</a>
+                </li>
+                <li>
+                    <a href="/classrooms" class="hover:text-blue-600">Roosters</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-blue-600">Docenten</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-blue-600">Leerlingen</a>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Pagina inhoud -->
-    <main >
-      {{ $slot }}
+    <main class="max-w-5xl mx-auto p-4">
+        {{ $slot }}
     </main>
 
 </body>
