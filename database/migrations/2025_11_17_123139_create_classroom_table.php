@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->integer('capacity')->default(30);
+            /* availability of class */
+            $table->boolean('is_available')->default(true);
 
-            // ✔️ Add roster_id foreign key and constrain to rosters table
+
             $table->foreignId('roster_id')
                 ->constrained('rosters')
                 ->cascadeOnDelete();
