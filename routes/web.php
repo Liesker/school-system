@@ -44,10 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Presence routes
-Route::get('/presence', [PresenceController::class, 'index'])->name('presence.index');
-
-
 Route::get('/classrooms', [App\Http\Controllers\ClassController::class, 'index'])->name('classrooms');
 // student 3
 Route::prefix('vak')->group(function () {
@@ -81,3 +77,4 @@ Route::get('/classrooms/{id}/delete', [App\Http\Controllers\ClassController::cla
 Route::post('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'update'])->name('classrooms.update');
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/jeffreyweb.php';
