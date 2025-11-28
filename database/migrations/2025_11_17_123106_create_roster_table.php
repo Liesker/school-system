@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('rosters', function (Blueprint $table) {
             $table->id();
 
-            $table->string('term');
+            $table->string('location');
             $table->year('year');
-            $table->integer('lesson_hour');
-            $table->integer('class_number');
+            // schedule fields for the weekly grid
+            $table->string('day')->nullable(); // Ma, Di, Wo, Do, Vr
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->integer('lesson_hour')->nullable();
+            $table->integer('class_number')->nullable();
 
             $table->timestamps();
         });

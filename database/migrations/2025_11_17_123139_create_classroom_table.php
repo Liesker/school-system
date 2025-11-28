@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('capacity')->default(30);
             /* availability of class */
             $table->boolean('is_available')->default(true);
+            $table->date('date')->nullable();
 
 
             $table->foreignId('roster_id')

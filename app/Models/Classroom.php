@@ -7,7 +7,7 @@ use App\Models\Roster;
 
 class Classroom extends Model
 {
-    //
+    public $fillable = ['name', 'description', 'capacity', 'is_available', 'date', 'roster_id'];
 
     public function roster()
     {
