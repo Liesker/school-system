@@ -29,6 +29,12 @@
                 <label for="capacity">Capaciteit</label><br>
                 <input id="capacity" name="capacity" type="number" value="{{ old('capacity') }}" style="width:6rem;padding:0.5rem;" />
             </div>
+
+            <div style="margin-bottom:0.75rem;">
+                <label for="date">Datum</label><br>
+                <input id="date" name="date" type="date" value="{{ old('date') }}" style="width:100%;padding:0.5rem;" />
+            </div>
+
             
             <div style="margin-bottom:0.75rem;">
                 <label for="is_available">Beschikbaarheid</label><br>
