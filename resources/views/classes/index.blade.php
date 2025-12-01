@@ -70,8 +70,8 @@
                                      $class->roster &&
                                      $class->roster->start_time === $time)
 
-                                    <!-- Klikbare les -->
-                                    <div onclick="openPopup({{ $class->id }})"
+                                    <!-- Klikbaar vakje -->
+                                    <div onclick="openPanel({{ $class->id }})"
                                          class="absolute inset-1 bg-blue-500 hover:bg-blue-600 transition text-white rounded p-2 text-xs shadow cursor-pointer">
 
                                         <div class="font-bold">{{ $class->name }}</div>
@@ -98,87 +98,67 @@
         </div>
     </div>
 
-    <!-- POPUP ACHTERGROND -->
-    <div id="popupBackground"
-         class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 opacity-0 transition-opacity duration-300">
+    <!-- Slide-in panel -->
+    <div id="slidePanel" 
+         class="fixed top-0 right-0 h-full w-96 bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
+
+        <div class="p-6">
+            <button onclick="closePanel()" 
+                    class="mb-4 text-gray-500 hover:text-gray-700">&larr; Sluiten</button>
+
+            <h2 id="panelTitle" class="text-xl font-bold mb-2"></h2>
+            <p id="panelDescription" class="text-gray-700 mb-2"></p>
+
+            <p class="text-sm text-gray-600">
+                <span class="font-semibold">Tijd:</span>
+                <span id="panelTime"></span>
+            </p>
+
+            <p class="text-sm text-gray-600">
+                <span class="font-semibold">Lesuur:</span>
+                <span id="panelHour"></span>
+            </p>
+
+            <p class="text-sm text-gray-600 mb-4">
+                <span class="font-semibold">Datum:</span>
+                <span id="panelDate"></span>
+            </p>
+
+            <a id="panelDetailLink" class="block bg-blue-500 hover:bg-blue-600 text-white text-center py-2 rounded mb-3">
+                Bekijk details
+            </a>
+        </div>
     </div>
 
-    <!-- POPUP VENSTER -->
-    <div id="popupWindow"
-         class="hidden fixed bg-white rounded-lg shadow-xl p-6 w-96 z-50 scale-75 opacity-0 transition-all duration-300">
-
-        <h2 id="popupTitle" class="text-xl font-bold mb-2"></h2>
-        <p id="popupDescription" class="text-gray-700 mb-2"></p>
-
-        <p class="text-sm text-gray-600">
-            <span class="font-semibold">Tijd:</span>
-            <span id="popupTime"></span>
-        </p>
-
-        <p class="text-sm text-gray-600">
-            <span class="font-semibold">Lesuur:</span>
-            <span id="popupHour"></span>
-        </p>
-
-        <p class="text-sm text-gray-600 mb-4">
-            <span class="font-semibold">Datum:</span>
-            <span id="popupDate"></span>
-        </p>
-
-        <a id="popupDetailLink"
-           class="block bg-blue-500 hover:bg-blue-600 text-white text-center py-2 rounded mb-3">
-            Bekijk details
-        </a>
-
-        <button onclick="closePopup()"
-                class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 rounded">
-            Sluiten
-        </button>
-    </div>
+    <!-- Overlay -->
+    <div id="slideOverlay" 
+         class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
 
     <script>
         const classesData = @json($classes);
 
-        function openPopup(id) {
+        function openPanel(id) {
             const item = classesData.find(c => c.id === id);
             if (!item) return;
 
-            document.getElementById('popupTitle').textContent = item.name;
-            document.getElementById('popupDescription').textContent = item.description;
-            document.getElementById('popupTime').textContent =
-                item.roster.start_time.substring(0, 5) + " - " +
-                item.roster.end_time.substring(0, 5);
-            document.getElementById('popupHour').textContent = item.roster.lesson_hour;
-            document.getElementById('popupDate').textContent = item.date;
+            document.getElementById('panelTitle').textContent = item.name;
+            document.getElementById('panelDescription').textContent = item.description;
+            document.getElementById('panelTime').textContent =
+                item.roster.start_time.substring(0,5) + ' - ' + item.roster.end_time.substring(0,5);
+            document.getElementById('panelHour').textContent = item.roster.lesson_hour;
+            document.getElementById('panelDate').textContent = item.date;
+            document.getElementById('panelDetailLink').href = "/classrooms/" + item.id;
 
-            document.getElementById('popupDetailLink').href = "/classrooms/" + item.id;
-
-            // Popup background fade-in
-            const bg = document.getElementById("popupBackground");
-            const win = document.getElementById("popupWindow");
-
-            bg.classList.remove("hidden");
-            win.classList.remove("hidden");
-
-            setTimeout(() => {
-                bg.classList.remove("opacity-0");
-                win.classList.remove("opacity-0", "scale-75");
-            }, 10);
+            // Slide panel in
+            document.getElementById('slidePanel').classList.remove('translate-x-full');
+            document.getElementById('slideOverlay').classList.remove('hidden');
         }
 
-        function closePopup() {
-            const bg = document.getElementById("popupBackground");
-            const win = document.getElementById("popupWindow");
-
-            bg.classList.add("opacity-0");
-            win.classList.add("opacity-0", "scale-75");
-
-            setTimeout(() => {
-                bg.classList.add("hidden");
-                win.classList.add("hidden");
-            }, 300);
+        function closePanel() {
+            document.getElementById('slidePanel').classList.add('translate-x-full');
+            document.getElementById('slideOverlay').classList.add('hidden');
         }
 
-        document.getElementById("popupBackground").addEventListener("click", closePopup);
+        document.getElementById('slideOverlay').addEventListener('click', closePanel);
     </script>
 </x-layout>

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/welcome', function () {
     return view('welcome');
-});
+}); 
 
 Route::get('/cijfers', [CijferController::class, 'index'])->name('cijfers.index');
 Route::get('/cijfers/create', [CijferController::class, 'create'])->name('cijfers.create');
