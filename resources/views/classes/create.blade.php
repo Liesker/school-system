@@ -1,4 +1,3 @@
-/*create classroom page */
 <x-layout>
     <div class="container" style="max-width:700px;margin:2rem auto;">
         <h1>Maak Nieuwe Klasse Aan</h1>
@@ -29,6 +28,32 @@
             <div style="margin-bottom:0.75rem;">
                 <label for="capacity">Capaciteit</label><br>
                 <input id="capacity" name="capacity" type="number" value="{{ old('capacity') }}" style="width:6rem;padding:0.5rem;" />
+            </div>
+
+            <div style="margin-bottom:0.75rem;">
+                <label for="date">Datum</label><br>
+                <input id="date" name="date" type="date" value="{{ old('date') }}" style="width:100%;padding:0.5rem;" />
+            </div>
+
+            
+            <div style="margin-bottom:0.75rem;">
+                <label for="is_available">Beschikbaarheid</label><br>
+                <select id="is_available" name="is_available" style="width:100%;padding:0.5rem;">
+                    <option value="1" {{ old('is_available') ? 'selected' : '' }}>Beschikbaar</option>
+                    <option value="0" {{ !old('is_available') ? 'selected' : '' }}>Niet Beschikbaar</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:0.75rem;">
+                <label for="roster_id">Rooster</label><br>
+                <select id="roster_id" name="roster_id" style="width:100%;padding:0.5rem;">
+                    <option value="">-- Selecteer Rooster --</option>
+                    @foreach ($rosters as $roster)
+                    <option value="{{ $roster->id }}" {{ old('roster_id') == $roster->id ? 'selected' : '' }}>
+                        {{ $roster->term }} {{ $roster->year }} - Lesuur: {{ $roster->lesson_hour }} - Klasnummer: {{ $roster->class_number }}
+                    </option>
+                    @endforeach
+                </select>
             </div>
 
             <div style="margin-top:1rem;">

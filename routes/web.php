@@ -20,7 +20,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/', [CijferController::class, 'index'])->name('cijfers.index');
+Route::get('/cijfers', [CijferController::class, 'index'])->name('cijfers.index');
 Route::get('/cijfers/create', [CijferController::class, 'create'])->name('cijfers.create');
 Route::get('/cijfers/{cijfer}', [CijferController::class, 'show'])->name('cijfers.show');
 Route::get('/cijfers/{cijfer}/edit', [CijferController::class, 'edit'])->name('cijfers.edit');
@@ -78,3 +78,9 @@ Route::post('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'u
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/jeffreyweb.php';
+
+Route::get('/presence', [PresenceController::class, 'index'])->name('presence.index');
+
+
+require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
