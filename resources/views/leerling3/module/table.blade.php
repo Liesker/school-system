@@ -6,38 +6,44 @@
     + Nieuwe Module
 </a>
 
-<table class="table-auto border border-collapse border-gray-300 w-full">
-    <thead>
-        <tr class="bg-gray-100">
-            <th class="border p-2 text-left">Naam</th>
-            <th class="border p-2 text-left">Vak</th>
-            <th class="border p-2 text-left">Acties</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($modules as $module)
-            <tr class="hover:bg-gray-50">
-                <td class="border p-2">{{ $module->naam }}</td>
-                <td class="border p-2">{{ $module->vak->naam }}</td>
-                <td class="border p-2 flex space-x-2">
 
-                    <a href="{{ route('module.edit', $module) }}" class="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600">
-                        Bewerken
-                    </a>
+<div class="full-width">
 
-                    <form method="POST" action="{{ route('module.destroy', $module) }}"
-                          onsubmit="return confirm('Weet je zeker dat je deze module wilt verwijderen?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                            Verwijderen
-                        </button>
-                    </form>
-
-                </td>
+    <table class="table-auto border border-collapse border-gray-300 w-full">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Naam</th>
+                <th class="border p-2 text-left">Vak</th>
+                <th class="border p-2 text-left">Acties</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach($modules as $module)
+                <tr class="hover:bg-gray-50">
+                    <td class="border p-2">{{ $module->naam }}</td>
+                    <td class="border p-2">{{ $module->vak->naam }}</td>
+                    <td class="border p-2 flex space-x-2">
+
+                        <a href="{{ route('module.edit', $module) }}" class="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600">
+                            Bewerken
+                        </a>
+
+                        <form method="POST" action="{{ route('module.destroy', $module) }}"
+                            onsubmit="return confirm('Weet je zeker dat je deze module wilt verwijderen?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                                Verwijderen
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+</div>
+
 
 </x-guest-layout>
