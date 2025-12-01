@@ -4,18 +4,18 @@
 
         <div class="bg-white shadow rounded-lg p-6">
 
-            <!-- Header: week navigatie -->
+            <!-- Header: Nieuwe klasse + week navigatie -->
             <div class="flex items-center justify-between mb-4">
                 <a href="{{ route('classrooms.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">
                     Nieuwe Klasse Aanmaken
                 </a>
 
-                <div class="flex items-center gap-4">
-                    @php
-                        $prev = $startOfWeek->copy()->subWeek()->toDateString();
-                        $next = $startOfWeek->copy()->addWeek()->toDateString();
-                    @endphp
+                @php
+                    $prev = $startOfWeek->copy()->subWeek()->toDateString();
+                    $next = $startOfWeek->copy()->addWeek()->toDateString();
+                @endphp
 
+                <div class="flex items-center gap-4">
                     <a href="{{ route('classrooms', ['start' => $prev]) }}" class="px-3 py-1 border rounded">
                         &larr; Vorige week
                     </a>
@@ -33,6 +33,10 @@
                 </div>
             </div>
 
+            @php
+                $times = ['08:00:00','09:00:00','10:00:00','11:00:00','12:00:00','13:00:00','14:00:00','15:00:00','16:00:00'];
+            @endphp
+
             <!-- Rooster grid -->
             <div class="grid grid-cols-6 border border-gray-300">
 
@@ -47,52 +51,37 @@
                     </div>
                 @endforeach
 
-                @php
-                    $times = [
-                        '08:00:00','09:00:00','10:00:00','11:00:00','12:00:00',
-                        '13:00:00','14:00:00','15:00:00','16:00:00'
-                    ];
-                @endphp
-
                 <!-- Tijden + vakjes -->
                 @foreach ($times as $time)
                     <!-- Tijd links -->
                     <div class="border-t border-r border-gray-300 p-2 text-sm text-gray-600">
-                        {{ substr($time, 0, 5) }}
+                        {{ substr($time,0,5) }}
                     </div>
 
                     <!-- Vakjes per dag -->
                     @foreach ($days as $day)
                         <div class="border-t border-r border-gray-300 relative h-24 p-1">
-
                             @foreach ($classes as $class)
-                                @if ($class->date === $day->toDateString() &&
-                                     $class->roster &&
-                                     $class->roster->start_time === $time)
-
-                                    <!-- Klikbaar vakje -->
-                                    <div onclick="openPanel({{ $class->id }})"
-                                         class="absolute inset-1 bg-blue-500 hover:bg-blue-600 transition text-white rounded p-2 text-xs shadow cursor-pointer">
+                                @if ($class->date === $day->toDateString() && $class->roster && $class->roster->start_time === $time)
+                                    <div onclick="openPanel({{ $class->id }})" 
+                                         class="absolute inset-1 bg-blue-500 hover:bg-blue-600 text-white rounded p-2 text-xs shadow cursor-pointer">
 
                                         <div class="font-bold">{{ $class->name }}</div>
                                         <div>{{ $class->description }}</div>
-
                                         <div class="text-[10px] mt-1">
-                                            {{ substr($class->roster->start_time, 0, 5) }} -
-                                            {{ substr($class->roster->end_time, 0, 5) }}
+                                            {{ substr($class->roster->start_time,0,5) }} -
+                                            {{ substr($class->roster->end_time,0,5) }}
                                         </div>
-
                                         <div class="text-[10px]">
                                             Lesuur: {{ $class->roster->lesson_hour }}
                                         </div>
                                     </div>
-
                                 @endif
                             @endforeach
-
                         </div>
                     @endforeach
                 @endforeach
+
             </div>
 
         </div>
@@ -149,7 +138,6 @@
             document.getElementById('panelDate').textContent = item.date;
             document.getElementById('panelDetailLink').href = "/classrooms/" + item.id;
 
-            // Slide panel in
             document.getElementById('slidePanel').classList.remove('translate-x-full');
             document.getElementById('slideOverlay').classList.remove('hidden');
         }

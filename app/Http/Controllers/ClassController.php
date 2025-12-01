@@ -8,52 +8,46 @@ use Carbon\Carbon;
 
 class ClassController extends Controller
 {
-    public function index()
-    {
-        // Ophalen van '?start=YYYY-MM-DD' of huidige week
-        $startParam = request()->query('start');
-        $startOfWeek = $startParam
-            ? Carbon::parse($startParam)->startOfWeek()
-            : Carbon::now()->startOfWeek();
+public function index()
+{
+    // Startdatum ophalen uit '?start=YYYY-MM-DD' of huidige week
+    $startParam = request()->query('start');
+    $startOfWeek = $startParam
+        ? Carbon::parse($startParam)->startOfWeek()
+        : Carbon::now()->startOfWeek();
 
-        // Ma t/m Vrij
-        $days = [];
-        for ($i = 0; $i < 5; $i++) {
-            $days[] = $startOfWeek->copy()->addDays($i);
+    $weeksToShow = 10; // aantal weken dat je wilt voorbereiden
+    $weeks = [];
+
+    for ($i = 0; $i < $weeksToShow; $i++) {
+        $weekStart = $startOfWeek->copy()->addWeeks($i);
+        $weekDays = [];
+        for ($d = 0; $d < 5; $d++) { // maandag t/m vrijdag
+            $weekDays[] = $weekStart->copy()->addDays($d);
         }
-
-        // Datumbereik: maandag t/m vrijdag
-        $startDate = $startOfWeek->toDateString();
-        $endDate   = $startOfWeek->copy()->addDays(4)->toDateString();
-
-        // Ophalen van lessen die binnen deze week vallen
-        $classes = Classroom::with('roster')
-            ->whereBetween('date', [$startDate, $endDate])
-            ->get();
-
-        // If no classes found in the current week, fall back to the week of the earliest class
-        if ($classes->isEmpty()) {
-            $firstClass = Classroom::whereNotNull('date')->orderBy('date')->first();
-            if ($firstClass) {
-                $startOfWeek = Carbon::parse($firstClass->date)->startOfWeek();
-
-                // recompute days and date range
-                $days = [];
-                for ($i = 0; $i < 5; $i++) {
-                    $days[] = $startOfWeek->copy()->addDays($i);
-                }
-
-                $startDate = $startOfWeek->toDateString();
-                $endDate   = $startOfWeek->copy()->addDays(4)->toDateString();
-
-                $classes = Classroom::with('roster')
-                    ->whereBetween('date', [$startDate, $endDate])
-                    ->get();
-            }
-        }
-
-        return view('classes.index', compact('classes', 'days', 'startOfWeek'));
+        $weeks[] = [
+            'start' => $weekStart,
+            'days' => $weekDays
+        ];
     }
+
+    // Datumbereik ophalen voor alle weken
+    $firstDate = $weeks[0]['start']->toDateString();
+    $lastDate = $weeks[$weeksToShow - 1]['start']->copy()->addDays(4)->toDateString();
+
+    // Klassen ophalen binnen dit bereik
+    $classes = Classroom::with('roster')
+        ->whereBetween('date', [$firstDate, $lastDate])
+        ->get();
+
+    // Voor compatibiliteit met je huidige Blade: huidige week dagen
+    $days = $weeks[0]['days'];
+
+    return view('classes.index', compact('weeks', 'classes', 'startOfWeek', 'days'));
+}
+
+
+
 
     public function show($id)
     {
