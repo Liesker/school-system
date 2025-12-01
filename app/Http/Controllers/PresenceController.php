@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Presence;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PresenceController extends Controller
 {
@@ -14,6 +15,11 @@ class PresenceController extends Controller
         return view('presence.index', compact('presences'));
         
     }
+    public function show($id)
+    {
+        $presence = Presence::findOrFail($id);
+        return view('presence.show', compact('presence'));
+    }
     public function create()
     {
         return view('presence.create');
@@ -22,20 +28,20 @@ class PresenceController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
-            'time' => 'required|time',
+            'time' => 'required|date_format:H:i',
             'option' => 'required|string',
             'description' => 'nullable|string',
-            'timecreated_at' => 'required|time',
+            'timecreated_at' => 'required|date_format:H:i:s',
             'datecreated_at' => 'required|date',
         ]);
 
         Presence::create([
-           'date' => 'required|date',
-            'time' => 'required|time',
-            'option' => 'required|string',
-            'description' => 'nullable|string',
-            'timecreated_at' => 'required|time',
-            'datecreated_at' => 'required|date',
+            'date' => $request->input('date'),
+            'time' => $request->input('time'),
+            'option' => $request->input('option'),
+            'description' => $request->input('description'),
+            'timecreated_at' => $request->input('timecreated_at'),
+            'datecreated_at' => $request->input('datecreated_at'),
         ]);
 
         return redirect()->route('presence.index')->with('success', 'Presence record created successfully.');
@@ -51,4 +57,42 @@ class PresenceController extends Controller
         $presence->delete();
         return redirect()->route('presence.index')->with('success', 'Presence record deleted successfully.');
     }
+    public function exportAbsence()
+    {
+        $absences = Presence::where('option', 'absent')->get();
+
+        $response = new StreamedResponse(function () use ($absences) {
+            $handle = fopen('php://output', 'w');
+            // CSV header
+            fputcsv($handle, ['Date', 'Time', 'Description']);
+            // CSV rows
+            foreach ($absences as $absence) {
+                fputcsv($handle, [
+                    $absence->date,
+                    $absence->time,
+                    $absence->description,
+                ]);
+            }
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="absences.csv"');
+
+        return $response;
+    }
+    public function objection(Request $request)
+    {
+        $request->validate([
+            'presence_id' => 'required|exists:presences,id',
+            'objection_description' => 'required|string|max:1000',
+        ]);
+
+        $presence = Presence::findOrFail($request->input('presence_id'));
+        $presence->objection = $request->input('objection_description');
+        $presence->save();
+
+        return redirect()->route('presence.index')->with('success', 'Your objection has been submitted.');
+    }
+
 }

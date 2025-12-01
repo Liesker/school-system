@@ -18,14 +18,6 @@ class PresenceSeeder extends Seeder
 
         DB::table('presences')->insert([
             [
-                'date' => Carbon::today()->subDay()->toDateString(),
-                'time' => '08:00:00',
-                'option' => 'present',
-                'timecreated_at' => $now,
-                'datecreated_at' => $now,
-                'description' => '',
-            ],
-            [
                 'date' => Carbon::today()->toDateString(),
                 'time' => '08:05:00',
                 'option' => 'absent',
@@ -41,6 +33,39 @@ class PresenceSeeder extends Seeder
                 'datecreated_at' => $now,
                 'description' => '',
             ],
+            [
+                'date' => Carbon::today()->toDateString(),
+                'time' => '08:12:00',
+                'option' => 'absent',
+                'timecreated_at' => $now,
+                'datecreated_at' => $now,
+                'description' => '',
+            ],
+            [
+                'date' => Carbon::today()->toDateString(),
+                'time' => '08:14:00',
+                'option' => 'absent',
+                'timecreated_at' => $now,
+                'datecreated_at' => $now,
+                'description' => 'Ingehaald na de pauze.',
+            ],
+            [
+                'date' => Carbon::today()->toDateString(),
+                'time' => '08:15:00',
+                'option' => 'absent',
+                'timecreated_at' => $now,
+                'datecreated_at' => $now,
+                'description' => 'Ziek gemeld.',
+            ],
+            [
+                'date' => Carbon::today()->toDateString(),
+                'time' => '08:20:00',
+                'option' => 'absent',
+                'timecreated_at' => $now,
+                'datecreated_at' => $now,
+                'description' => '',
+            ]
+            
         ]);
     }
 }
