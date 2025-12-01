@@ -65,17 +65,6 @@ Route::prefix('vak')->group(function () {
 
 require __DIR__.'/auth.php';
 // Show create form before parameterized routes so "create" isn't treated as an {id}
-Route::get('/classrooms/create', [App\Http\Controllers\ClassController::class, 'create'])->name('classrooms.create');
-
-// Store new classroom
-Route::post('/classrooms', [App\Http\Controllers\ClassController::class, 'store'])->name('classrooms.store');
-
-Route::get('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'show'])->name('classrooms.show');
-Route::get('/classrooms/{id}/edit', [App\Http\Controllers\ClassController::class, 'edit'])->name('classrooms.edit');
-Route::get('/classrooms/{id}/delete', [App\Http\Controllers\ClassController::class, 'delete'])->name('classrooms.delete');
-
-
-Route::post('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'update'])->name('classrooms.update');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/jeffreyweb.php';

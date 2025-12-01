@@ -4,18 +4,20 @@ use App\Http\Controllers\RosterController;
 use Illuminate\Support\Facades\Route;
 
 // Classroom Routes
-Route::get('/classrooms', [ClassController::class, 'index'])->name('classrooms');
+Route::get('/classrooms/create', [App\Http\Controllers\ClassController::class, 'create'])->name('classrooms.create');
 
-Route::get('/classrooms/create', [ClassController::class, 'create'])->name('classrooms.create');
-Route::post('/classrooms', [ClassController::class, 'store'])->name('classrooms.store');
+// Store new classroom
+Route::post('/classrooms', [App\Http\Controllers\ClassController::class, 'store'])->name('classrooms.store');
 
-Route::get('/classrooms/{id}', [ClassController::class, 'show'])->name('classrooms.show');
-Route::get('/classrooms/{id}/edit', [ClassController::class, 'edit'])->name('classrooms.edit');
-Route::delete('/classrooms/{id}', [ClassController::class, 'destroy'])->name('classrooms.destroy');
+Route::get('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'show'])->name('classrooms.show');
+Route::get('/classrooms/{id}/edit', [App\Http\Controllers\ClassController::class, 'edit'])->name('classrooms.edit');
+Route::get('/classrooms/{id}/delete', [App\Http\Controllers\ClassController::class, 'delete'])->name('classrooms.delete');
+
+
+Route::post('/classrooms/{id}', [App\Http\Controllers\ClassController::class, 'update'])->name('classrooms.update');
 
 
 
-Route::post('/classrooms/{id}', [ClassController::class, 'update'])->name('classrooms.update');
 
 // Roster Routes
 
