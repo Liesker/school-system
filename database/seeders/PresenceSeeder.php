@@ -23,7 +23,7 @@ class PresenceSeeder extends Seeder
                 'option' => 'present',
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
-                'description' => 'Late arrival due to traffic.',
+                'description' => '',
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -31,7 +31,7 @@ class PresenceSeeder extends Seeder
                 'option' => 'absent',
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
-                'description' => 'Late arrival due to traffic.',
+                'description' => 'Te laat gekomen vanwege verkeer.',
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -39,7 +39,7 @@ class PresenceSeeder extends Seeder
                 'option' => 'present',
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
-                'description' => 'Late arrival due to traffic.',
+                'description' => '',
             ],
         ]);
     }
