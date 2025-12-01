@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            /* classroom migration items */
+
             $table->string('name');
             $table->string('description')->nullable();
             $table->integer('capacity')->default(30);
-            
+            /* availability of class */
+            $table->boolean('is_available')->default(true);
+            $table->date('date')->nullable();
+
+
+            $table->foreignId('roster_id')
+                ->constrained('rosters')
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
@@ -27,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('class');
+        Schema::dropIfExists('classrooms');
     }
 };

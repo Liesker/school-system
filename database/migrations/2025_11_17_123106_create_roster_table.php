@@ -11,10 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roster', function (Blueprint $table) {
+        Schema::create('rosters', function (Blueprint $table) {
             $table->id();
+
+            $table->string('location');
+            $table->year('year');
+            // schedule fields for the weekly grid
+            $table->string('day')->nullable(); // Ma, Di, Wo, Do, Vr
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->integer('lesson_hour')->nullable();
+            $table->integer('class_number')->nullable();
+
             $table->timestamps();
-            
         });
     }
 
@@ -23,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roster');
+        Schema::dropIfExists('rosters');
     }
 };
