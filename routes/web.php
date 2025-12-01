@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CijferController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\VakController;
@@ -86,3 +87,8 @@ Route::get('/presence', [PresenceController::class, 'index'])->name('presence.in
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
 
+
+
+
+require __DIR__.'/auth.php';
+require __DIR__.'/beauweb.php';
