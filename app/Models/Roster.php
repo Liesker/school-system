@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Roster extends Model
 {
-    //
+    protected $fillable = ['term', 'year', 'day', 'start_time', 'end_time', 'lesson_hour', 'class_number'];
+
+    public function classroom()
+    {
+        return $this->hasMany(Classroom::class);
+    }
 }
