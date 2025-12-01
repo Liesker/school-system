@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             GidsVakSeeder::class,
             RosterSeeder::class,
             ClassSeeder::class,
+            ObjectionSeeder::class,
         ]);
 
         User::factory()->create([
