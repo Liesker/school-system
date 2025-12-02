@@ -184,4 +184,14 @@ public function index()
             ->route('classrooms.show', ['id' => $class->id])
             ->with('success', 'Class updated successfully.');
     }
+
+    public function destroy($id)
+    {
+        $class = Classroom::findOrFail($id);
+        $class->delete();
+
+        return redirect()
+            ->route('classrooms')
+            ->with('success', 'Class deleted successfully.');
+    }
 }
