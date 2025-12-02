@@ -14,11 +14,13 @@ class ClassSeeder extends Seeder
     public function run(): void
     {
         $classes = [
-            ['name' => 'Math 101', 'description' => 'Basic Mathematics', 'capacity' => 25, 'roster_id' => 1, 'is_available' => true, 'date' => '2025-11-25'],
-            ['name' => 'History 201', 'description' => 'World History', 'capacity' => 30, 'roster_id' => 2, 'is_available' => true, 'date' => '2025-11-26'],
-            ['name' => 'Science 301', 'description' => 'Advanced Science', 'capacity' => 20, 'roster_id' => 3, 'is_available' => false, 'date' => '2025-11-27'],
-            ['name' => 'Art 101', 'description' => 'Introduction to Art', 'capacity' => 15, 'roster_id' => 4, 'is_available' => true, 'date' => '2025-11-28'],
+            ['name' => 'Projecten', 'description' => 'Werken aan je project', 'capacity' => 25, 'roster_id' => 1, 'is_available' => true, 'date' => '2025-12-01'],
+            ['name' => 'Back-end development', 'description' => 'Werken aan achtergrondprocessen in een website', 'capacity' => 30, 'roster_id' => 2, 'is_available' => true, 'date' => '2025-12-01'],
+            ['name' => 'Front-end development', 'description' => 'Werken aan de voorkant van een website', 'capacity' => 20, 'roster_id' => 3, 'is_available' => false, 'date' => '2025-12-01'],
+            ['name' => 'Keuzedeel', 'description' => 'Werken aan gekozen specialisatie', 'capacity' => 15, 'roster_id' => 4, 'is_available' => true, 'date' => '2025-12-01'],
+            ['name' => 'Projecten', 'description' => 'Werken aan je project', 'capacity' => 30, 'roster_id' => 5, 'is_available' => true, 'date' => '2025-12-01'],
         ];
+
         Classroom::insert($classes);
     }
 }

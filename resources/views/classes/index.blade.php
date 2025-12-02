@@ -7,12 +7,12 @@
             <!-- Header: Nieuwe klasse + week navigatie -->
             <div class="flex items-center justify-between mb-4">
                 <a href="{{ route('classrooms.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">
-                    Nieuwe Klasse Aanmaken
+                    Klas Aanmaken
                 </a>
 
                 @php
-                    $prev = $startOfWeek->copy()->subWeek()->toDateString();
-                    $next = $startOfWeek->copy()->addWeek()->toDateString();
+                $prev = $startOfWeek->copy()->subWeek()->toDateString();
+                $next = $startOfWeek->copy()->addWeek()->toDateString();
                 @endphp
 
                 <div class="flex items-center gap-4">
@@ -34,7 +34,7 @@
             </div>
 
             @php
-                $times = ['08:00:00','09:00:00','10:00:00','11:00:00','12:00:00','13:00:00','14:00:00','15:00:00','16:00:00'];
+            $times = ['08:00:00','09:00:00','10:00:00','11:00:00','12:00:00','13:00:00','14:00:00','15:00:00','16:00:00'];
             @endphp
 
             <!-- Rooster grid -->
@@ -45,41 +45,42 @@
 
                 <!-- Dag headers -->
                 @foreach ($days as $day)
-                    <div class="border-r border-gray-300 bg-gray-100 p-2 text-center font-semibold">
-                        <div>{{ $day->format('D') }}</div>
-                        <div class="text-xs text-gray-500">{{ $day->format('d M') }}</div>
-                    </div>
+                <div class="border-r border-gray-300 bg-gray-100 p-2 text-center font-semibold">
+                    <div>{{ $day->format('D') }}</div>
+                    <div class="text-xs text-gray-500">{{ $day->format('d M') }}</div>
+                </div>
                 @endforeach
 
                 <!-- Tijden + vakjes -->
                 @foreach ($times as $time)
-                    <!-- Tijd links -->
-                    <div class="border-t border-r border-gray-300 p-2 text-sm text-gray-600">
-                        {{ substr($time,0,5) }}
-                    </div>
+                <!-- Tijd links -->
+                <div class="border-t border-r border-gray-300 p-2 text-sm text-gray-600">
+                    {{ substr($time,0,5) }}
+                </div>
 
-                    <!-- Vakjes per dag -->
-                    @foreach ($days as $day)
-                        <div class="border-t border-r border-gray-300 relative h-24 p-1">
-                            @foreach ($classes as $class)
-                                @if ($class->date === $day->toDateString() && $class->roster && $class->roster->start_time === $time)
-                                    <div onclick="openPanel({{ $class->id }})" 
-                                         class="absolute inset-1 bg-blue-500 hover:bg-blue-600 text-white rounded p-2 text-xs shadow cursor-pointer">
+                <!-- Vakjes per dag -->
+                @foreach ($days as $day)
+                <div class="border-t border-r border-gray-300 relative h-24 p-1">
+                    @foreach ($classes as $class)
+                    @if ($class->date === $day->toDateString() && $class->roster && $class->roster->start_time === $time)
+                    <div onclick="openPanel({{ $class->id }})"
+                        class="absolute inset-1 bg-blue-500 hover:bg-blue-600 text-white rounded p-2 text-xs shadow cursor-pointer">
 
-                                        <div class="font-bold">{{ $class->name }}</div>
-                                        <div>{{ $class->description }}</div>
-                                        <div class="text-[10px] mt-1">
-                                            {{ substr($class->roster->start_time,0,5) }} -
-                                            {{ substr($class->roster->end_time,0,5) }}
-                                        </div>
-                                        <div class="text-[10px]">
-                                            Lesuur: {{ $class->roster->lesson_hour }}
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
+                        <div class="font-bold">{{ $class->name }}</div>
+                        <div class="text-[10px] leading-tight">{{ $class->description }}</div>
+
+                        <div class="text-[10px] mt-1">
+                            {{ substr($class->roster->start_time,0,5) }} -
+                            {{ substr($class->roster->end_time,0,5) }}
                         </div>
+                        <div class="text-[10px]">
+                            Lesuur: {{ $class->roster->lesson_hour }}
+                        </div>
+                    </div>
+                    @endif
                     @endforeach
+                </div>
+                @endforeach
                 @endforeach
 
             </div>
@@ -88,12 +89,12 @@
     </div>
 
     <!-- Slide-in panel -->
-    <div id="slidePanel" 
-         class="fixed top-0 right-0 h-full w-96 bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
+    <div id="slidePanel"
+        class="fixed top-0 right-0 h-full w-96 bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
 
         <div class="p-6">
-            <button onclick="closePanel()" 
-                    class="mb-4 text-gray-500 hover:text-gray-700">&larr; Sluiten</button>
+            <button onclick="closePanel()"
+                class="mb-4 text-gray-500 hover:text-gray-700">&larr; Sluiten</button>
 
             <h2 id="panelTitle" class="text-xl font-bold mb-2"></h2>
             <p id="panelDescription" class="text-gray-700 mb-2"></p>
@@ -120,8 +121,8 @@
     </div>
 
     <!-- Overlay -->
-    <div id="slideOverlay" 
-         class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
+    <div id="slideOverlay"
+        class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
 
     <script>
         const classesData = @json($classes);
@@ -133,7 +134,7 @@
             document.getElementById('panelTitle').textContent = item.name;
             document.getElementById('panelDescription').textContent = item.description;
             document.getElementById('panelTime').textContent =
-                item.roster.start_time.substring(0,5) + ' - ' + item.roster.end_time.substring(0,5);
+                item.roster.start_time.substring(0, 5) + ' - ' + item.roster.end_time.substring(0, 5);
             document.getElementById('panelHour').textContent = item.roster.lesson_hour;
             document.getElementById('panelDate').textContent = item.date;
             document.getElementById('panelDetailLink').href = "/classrooms/" + item.id;
