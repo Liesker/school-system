@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('rosters', function (Blueprint $table) {
             $table->id();
 
-            $table->string('location');
-            $table->year('year');
+            $table->string('location')->nullable();
+            $table->string('term')->nullable();
+            $table->year('classyear');
             // schedule fields for the weekly grid
             $table->string('day')->nullable(); // Ma, Di, Wo, Do, Vr
             $table->time('start_time')->nullable();

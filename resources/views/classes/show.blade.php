@@ -8,7 +8,7 @@
             <p class="mb-2"><strong>Beschrijving:</strong> {{ $class->description }}</p>
             <p class="mb-2"><strong>Capaciteit:</strong> {{ $class->capacity }}</p>
             <p class="mb-2"><strong>Beschikbaarheid:</strong> {{ $class->is_available ? 'Beschikbaar' : 'Niet Beschikbaar' }}</p>
-            <p class="mb-2"><strong>Rooster:</strong> {{ $class->roster->term ?? 'N/A' }} {{ $class->roster->year ?? '' }}</p>
+            <p class="mb-2"><strong>Rooster:</strong> {{ $class->roster->term ?? 'N/A' }} {{ $class->roster->classyear ?? '' }}</p>
             <p class="mb-2"><strong>Lesuur:</strong> {{ $class->roster->lesson_hour ?? 'N/A' }}</p>
             <p class="mb-2"><strong>Klasnummer:</strong> {{ $class->roster->class_number ?? 'N/A' }}</p>
 
