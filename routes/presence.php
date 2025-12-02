@@ -1,18 +1,14 @@
 <?php
 
-use App\Http\Controllers\CijferController;
 use App\Http\Controllers\PresenceController;
-
-Route::get('/', [CijferController::class, 'index'])->name('cijfers.index');
-Route::get('/cijfers/create', [CijferController::class, 'create'])->name('cijfers.create');
-Route::get('/cijfers/{cijfer}', [CijferController::class, 'show'])->name('cijfers.show');
-Route::get('/cijfers/{cijfer}/edit', [CijferController::class, 'edit'])->name('cijfers.edit');
-Route::put('/cijfers/{cijfer}', [CijferController::class, 'update'])->name('cijfers.update');
-Route::get('/cijfers/create', [CijferController::class, 'create'])->name('cijfers.create');
-
-
-Route::post('/cijfers', [CijferController::class, 'store'])->name('cijfers.store');
-Route::delete('/cijfers/{cijfer}', [CijferController::class, 'destroy'])->name('cijfers.destroy');
+use Illuminate\Support\Facades\Route;
 
 // Presence routes
 Route::get('/presence', [PresenceController::class, 'index'])->name('presence.index');
+Route::get('/presence/create', [PresenceController::class, 'create'])->name('presence.create');
+Route::post('/presence', [PresenceController::class, 'store'])->name('presence.store');
+Route::get('/presence/{id}/edit', [PresenceController::class, 'edit'])->name('presence.edit');
+Route::get('/presence/show/{id}', [PresenceController::class, 'show'])->name('presence.show');
+Route::post('/presence/export-absence', [PresenceController::class, 'exportAbsence'])->name('presence.exportAbsence');
+Route::delete('/presence/{id}', [PresenceController::class, 'destroy'])->name('presence.destroy');
+Route::post('/presence/objection', [PresenceController::class, 'objection'])->name('presence.objection');
