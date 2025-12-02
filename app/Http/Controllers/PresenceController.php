@@ -94,5 +94,33 @@ class PresenceController extends Controller
 
         return redirect()->route('presence.index')->with('success', 'Your objection has been submitted.');
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'date' => 'required|date',
+            // Accept HH:mm or HH:mm:ss
+            'time' => ['required', 'regex:/^\d{2}:\d{2}(:\d{2})?$/'],
+            'option' => 'required|string',
+            'description' => 'nullable|string',
+            'objection' => 'nullable|string',
+        ]);
+
+        $presence = Presence::findOrFail($id);
+
+        // Convert time to HH:mm:ss if needed
+        $time = $request->input('time');
+        if (preg_match('/^\d{2}:\d{2}$/', $time)) {
+            $time .= ':00';
+        }
+
+        $presence->date = $request->input('date');
+        $presence->time = $time;
+        $presence->option = $request->input('option');
+        $presence->description = $request->input('description');
+
+        $presence->save();
+
+        return redirect()->route('presence.index')->with('success', 'Presence record updated successfully.');
+    }
 
 }

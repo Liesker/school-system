@@ -13,7 +13,8 @@ class Presence extends Model
         'time',
         'option',
         'description',
-        'datecreated_at',
+        'objection',
         'timecreated_at',
+        'datecreated_at',
     ];
 }

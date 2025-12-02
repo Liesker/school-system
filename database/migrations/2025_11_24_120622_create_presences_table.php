@@ -17,6 +17,7 @@ return new class extends Migration
             $table->time('time');
             $table->enum('option', ['absent', 'present'])->default('present');
             $table->text('description')->nullable();
+            $table->text('objection')->nullable(); // <-- Add this line
             $table->date('datecreated_at');
             $table->time('timecreated_at');
             $table->timestamps();
