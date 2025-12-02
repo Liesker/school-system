@@ -13,6 +13,8 @@ Route::post('/classrooms', [ClassController::class, 'store'])->name('classrooms.
 
 Route::get('/classrooms/{id}', [ClassController::class, 'show'])->name('classrooms.show');
 Route::get('/classrooms/{id}/edit', [ClassController::class, 'edit'])->name('classrooms.edit');
-Route::get('/classrooms/{id}/delete', [ClassController::class, 'delete'])->name('classrooms.delete');
 
 Route::post('/classrooms/{id}', [ClassController::class, 'update'])->name('classrooms.update');
+
+// Delete classroom (uses HTTP DELETE)
+Route::delete('/classrooms/{id}', [ClassController::class, 'destroy'])->name('classrooms.destroy');
