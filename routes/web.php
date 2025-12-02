@@ -1,11 +1,12 @@
 <?php
 
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
-});
+}); 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -18,7 +19,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-
 require __DIR__.'/auth.php';
-require __DIR__.'/beauweb.php';
+require __DIR__.'/roster.php';
+require __DIR__.'/cijfer.php';
+require __DIR__.'/module.php';
+require __DIR__.'/vak.php';
+require __DIR__.'/classroom.php';
+require __DIR__.'/presence.php';
+
+    
