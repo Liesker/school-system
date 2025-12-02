@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VakController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\OpdrachtController;
+use App\Http\Controllers\GidsController;
 
 
 Route::get('/', function () {
@@ -51,4 +52,17 @@ Route::prefix('opdracht')->group(function () {
     Route::get('/{opdracht}/edit', [OpdrachtController::class, 'edit'])->name('opdracht.edit');
     Route::put('/{opdracht}', [OpdrachtController::class, 'update'])->name('opdracht.update');
     Route::delete('/{opdracht}', [OpdrachtController::class, 'destroy'])->name('opdracht.destroy');
+});
+
+Route::prefix('gids')->group(function () {
+
+    Route::get('/', [GidsController::class, 'index'])->name('gids.index');
+    Route::get('/create', [GidsController::class, 'create'])->name('gids.create');
+    Route::post('/', [GidsController::class, 'store'])->name('gids.store');
+    Route::get('/table', [GidsController::class, 'table'])->name('gids.table');
+     
+    Route::get('/{gids}', [GidsController::class, 'show'])->name('gids.show');
+    Route::get('/{gids}/edit', [GidsController::class, 'edit'])->name('gids.edit');
+    Route::put('/{gids}', [GidsController::class, 'update'])->name('gids.update');
+    Route::delete('/{gids}', [GidsController::class, 'destroy'])->name('gids.destroy');
 });
