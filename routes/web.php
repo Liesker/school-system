@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CijferController;
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
+Route::get('/index', [App\Http\Controllers\ClassController::class, 'index'])->name('home');
 Route::get('/classrooms', [App\Http\Controllers\ClassController::class, 'index'])->name('classrooms');
 // student 3
 Route::prefix('vak')->group(function () {
@@ -92,3 +95,5 @@ require __DIR__.'/admin.php';
 
 require __DIR__.'/auth.php';
 require __DIR__.'/beauweb.php';
+require __DIR__.'/presence.php';
+    
