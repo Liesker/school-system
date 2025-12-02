@@ -8,44 +8,55 @@ use Carbon\Carbon;
 
 class ClassController extends Controller
 {
-public function index()
-{
-    // Startdatum ophalen uit '?start=YYYY-MM-DD' of huidige week
-    $startParam = request()->query('start');
-    $startOfWeek = $startParam
-        ? Carbon::parse($startParam)->startOfWeek()
-        : Carbon::now()->startOfWeek();
+    public function index()
+    {
+        // Weekstart ophalen
+        // ------------------------------------------------------------
+        // Als de gebruiker ?start=YYYY-MM-DD meegeeft → gebruik die datum direct.
+        // GEEN startOfWeek(), want dat schoof je datum naar maandag van een andere week.
+        // ------------------------------------------------------------
+        $startParam = request()->query('start');
 
-    $weeksToShow = 10; // aantal weken dat je wilt voorbereiden
-    $weeks = [];
-
-    for ($i = 0; $i < $weeksToShow; $i++) {
-        $weekStart = $startOfWeek->copy()->addWeeks($i);
-        $weekDays = [];
-        for ($d = 0; $d < 5; $d++) { // maandag t/m vrijdag
-            $weekDays[] = $weekStart->copy()->addDays($d);
+        if ($startParam) {
+            $startOfWeek = Carbon::parse($startParam);
+        } else {
+            // standaard: huidige week (maandag)
+            $startOfWeek = Carbon::now()->startOfWeek(Carbon::MONDAY);
         }
-        $weeks[] = [
-            'start' => $weekStart,
-            'days' => $weekDays
-        ];
+
+        // Alles tonen voor X weken vooruit
+        $weeksToShow = 10;
+        $weeks = [];
+
+        for ($i = 0; $i < $weeksToShow; $i++) {
+            $weekStart = $startOfWeek->copy()->addWeeks($i);
+
+            // maandag t/m vrijdag
+            $weekDays = [];
+            for ($d = 0; $d < 5; $d++) {
+                $weekDays[] = $weekStart->copy()->addDays($d);
+            }
+
+            $weeks[] = [
+                'start' => $weekStart,
+                'days' => $weekDays,
+            ];
+        }
+
+        // Datumbereik voor database-query
+        $firstDate = $weeks[0]['start']->toDateString();
+        $lastDate = $weeks[$weeksToShow - 1]['start']->copy()->addDays(4)->toDateString();
+
+        // Klassen ophalen
+        $classes = Classroom::with('roster')
+            ->whereBetween('date', [$firstDate, $lastDate])
+            ->get();
+
+        // Blade-compatibiliteit met $days
+        $days = $weeks[0]['days'];
+
+        return view('classes.index', compact('weeks', 'classes', 'startOfWeek', 'days'));
     }
-
-    // Datumbereik ophalen voor alle weken
-    $firstDate = $weeks[0]['start']->toDateString();
-    $lastDate = $weeks[$weeksToShow - 1]['start']->copy()->addDays(4)->toDateString();
-
-    // Klassen ophalen binnen dit bereik
-    $classes = Classroom::with('roster')
-        ->whereBetween('date', [$firstDate, $lastDate])
-        ->get();
-
-    // Voor compatibiliteit met je huidige Blade: huidige week dagen
-    $days = $weeks[0]['days'];
-
-    return view('classes.index', compact('weeks', 'classes', 'startOfWeek', 'days'));
-}
-
 
 
 
@@ -183,5 +194,15 @@ public function index()
         return redirect()
             ->route('classrooms.show', ['id' => $class->id])
             ->with('success', 'Class updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $class = Classroom::findOrFail($id);
+        $class->delete();
+
+        return redirect()
+            ->route('classrooms')
+            ->with('success', 'Class deleted successfully.');
     }
 }
