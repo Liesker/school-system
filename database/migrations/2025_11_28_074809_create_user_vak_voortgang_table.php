@@ -4,22 +4,28 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
     {
-        Schema::create('cijfers', function (Blueprint $table) {
+        Schema::create('user_vak_voortgang', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('naam');
-            $table->integer('weging');
             $table->string('vak');
-            $table->integer('waarde');
+            $table->integer('totaal_toetsen')->default(5);
             $table->timestamps();
         });
     }
 
+
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('cijfers');
+        Schema::dropIfExists('user_vak_voortgang');
     }
 };

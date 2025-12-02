@@ -15,7 +15,6 @@ class RosterController extends Controller
     {
         // Logic to show form to create a new roster
         return view('rosters.create');
-
     }
 
     public function store(Request $request)
@@ -23,8 +22,11 @@ class RosterController extends Controller
         // Logic to store a new roster
         $validated = $request->validate([
             'term' => 'required|string|max:255',
-            'year' => 'required|integer|min:2000',
+            'classyear' => 'required|integer|min:2000',
+            'lesson_hour' => 'nullable|integer|min:1',
+            'class_number' => 'nullable|integer|min:1',
         ]);
+
         \App\Models\Roster::create($validated);
         return redirect()->route('rosters')->with('success', 'Roster created successfully.');
     }
@@ -41,7 +43,9 @@ class RosterController extends Controller
         // Logic to update an existing roster
         $validated = $request->validate([
             'term' => 'required|string|max:255',
-            'year' => 'required|integer|min:2000',
+            'classyear' => 'required|integer|min:2000',
+            'lesson_hour' => 'nullable|integer|min:1',
+            'class_number' => 'nullable|integer|min:1',
         ]);
         $roster = \App\Models\Roster::findOrFail($id);
         $roster->update($validated);

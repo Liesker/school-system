@@ -31,7 +31,7 @@
                 <input id="capacity" name="capacity" type="number" value="{{ old('capacity', $class->capacity) }}" style="width:6rem;padding:0.5rem;" />
             </div>
 
-           
+
             <div style="margin-bottom:0.75rem;">
                 <label for="date">Date</label><br>
                 <input id="date" name="date" type="date" value="{{ old('date', $class->date) }}" style="width:100%;padding:0.5rem;" />
@@ -47,14 +47,31 @@
 
             <div style="margin-bottom:0.75rem;">
                 <label for="roster_id">Roster</label><br>
-                <select id="roster_id" name="roster_id" style="width:100%;padding:0.5rem;">
-                    <option value="">-- Select Roster --</option>
-                    @foreach ($rosters as $roster)
-                    <option value="{{ $roster->id }}" {{ old('roster_id', $class->roster_id) == $roster->id ? 'selected' : '' }}>
-                        {{ $roster->term }} {{ $roster->year }} - Lesson Hour: {{ $roster->lesson_hour }} - Class Number: {{ $roster->class_number }}
-                    </option>
-                    @endforeach
-                </select>
+                <p style="margin:0 0 0.5rem 0;font-size:0.9rem;color:#555;">Of kies onderdelen afzonderlijk</p>
+
+                <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
+                    <select id="classyear" name="classyear" style="padding:0.5rem;width:6rem;">
+                        <option value="">Jaar</option>
+                        @foreach($classyears as $y)
+                        <option value="{{ $y }}" {{ (string)old('classyear', optional($class->roster)->classyear) === (string)$y ? 'selected' : '' }}>{{ $y }}</option>
+                        @endforeach
+                    </select>
+
+                    <select id="lesson_hour" name="lesson_hour" style="padding:0.5rem;width:6rem;">
+                        <option value="">Lesuur</option>
+                        @foreach($lesson_hours as $lh)
+                        <option value="{{ $lh }}" {{ (string)old('lesson_hour', optional($class->roster)->lesson_hour) === (string)$lh ? 'selected' : '' }}>{{ $lh }}</option>
+                        @endforeach
+                    </select>
+
+                    <select id="class_number" name="class_number" style="padding:0.5rem;width:6rem;">
+                        <option value="">Klasnr</option>
+                        @foreach($class_numbers as $cn)
+                        <option value="{{ $cn }}" {{ (string)old('class_number', optional($class->roster)->class_number) === (string)$cn ? 'selected' : '' }}>{{ $cn }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
             </div>
 
             <div style="margin-top:1rem;">

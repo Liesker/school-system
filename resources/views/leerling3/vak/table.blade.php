@@ -4,6 +4,7 @@
 
 <a href="{{ route('vak.create') }}" class="inline-block mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">+ Nieuw Vak</a>
 
+
 <table class="table-auto border border-collapse border-gray-300 w-full">
     <thead>
         <tr class="bg-gray-100">
