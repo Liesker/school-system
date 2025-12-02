@@ -21,6 +21,16 @@
         <p class="text-gray-500">Geen modules beschikbaar voor dit vak.</p>
     @endif
 
+    @if($vak->gids)
+    <a href="{{ route('gids.show', $vak->gids) }}" class="text-blue-600 underline">
+        Bekijk Studiegids →
+    </a>
+    @else
+        <p class="text-gray-500 text-sm italic">Geen studiegids beschikbaar</p>
+    @endif
+
+
+
 
 </x-guest-layout>
  
