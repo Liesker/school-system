@@ -80,9 +80,6 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/jeffreyweb.php';
 
 
-Route::get('/presence', [PresenceController::class, 'index'])->name('presence.index');
-
-
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
 

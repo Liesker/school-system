@@ -24,6 +24,7 @@ class PresenceSeeder extends Seeder
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
                 'description' => 'Te laat gekomen vanwege verkeer.',
+                'objection' => null,
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -32,6 +33,7 @@ class PresenceSeeder extends Seeder
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
                 'description' => '',
+                'objection' => null,
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -40,6 +42,7 @@ class PresenceSeeder extends Seeder
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
                 'description' => '',
+                'objection' => null,
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -48,6 +51,7 @@ class PresenceSeeder extends Seeder
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
                 'description' => 'Ingehaald na de pauze.',
+                'objection' => null,
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -56,6 +60,7 @@ class PresenceSeeder extends Seeder
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
                 'description' => 'Ziek gemeld.',
+                'objection' => null,
             ],
             [
                 'date' => Carbon::today()->toDateString(),
@@ -64,8 +69,8 @@ class PresenceSeeder extends Seeder
                 'timecreated_at' => $now,
                 'datecreated_at' => $now,
                 'description' => '',
+                'objection' => null,
             ]
-            
         ]);
     }
 }
