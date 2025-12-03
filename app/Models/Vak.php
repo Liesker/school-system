@@ -15,6 +15,7 @@ class Vak extends Model
         'naam',
         'beschrijving',
         'afbeelding',
+        'totaal_toetsen',
     ];
 
     // Relatie: Vak heeft meerdere Modules
@@ -28,4 +29,14 @@ class Vak extends Model
     {
         return $this->belongsToMany(Gids::class, 'gids_vak', 'vak_id', 'gids_id');
     }
+
+    public function cijfers()
+    {
+        return $this->hasMany(Cijfer::class, 'vak', 'naam');
+    }
+
+    public function vakRelatie()
+    {
+        return $this->belongsTo(Vak::class, 'vak', 'naam');
+    }  
 }

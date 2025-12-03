@@ -109,4 +109,10 @@ class User extends Authenticatable
     {
         return $this->hasRole('Student');
     }
+
+    // cijfers relatie
+    public function cijfers()
+    {
+        return $this->hasMany(Cijfer::class);
+    }
 }
